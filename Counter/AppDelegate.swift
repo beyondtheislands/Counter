@@ -1,7 +1,11 @@
 import Cocoa
+import HotKey
 
 @NSApplicationMain
+
 class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    var hotKey: HotKey?
 
     var window: NSWindow?
     var statusItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -36,7 +40,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusMenu?.addItem(withTitle: "-1", action: #selector(decrementCounter), keyEquivalent: "")
         statusMenu?.addItem(withTitle: "0", action: #selector(resetCounter), keyEquivalent: "")
         statusMenu?.addItem(NSMenuItem.separator())
-        statusMenu?.addItem(withTitle: "Custom...", action: #selector(showCustomIncrementWindow), keyEquivalent: "")
+        let customItem = NSMenuItem(title: "Custom...", action: #selector(showCustomIncrementWindow), keyEquivalent: "")
+        customItem.target = self
+        statusMenu?.addItem(customItem)
         statusMenu?.addItem(NSMenuItem.separator())
 
         let quitMenuItem = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
@@ -45,6 +51,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         statusItem.menu = statusMenu
         updateCounterDisplay()
+
+        hotKey = HotKey(key: .equal, modifiers: [.command, .option])
+        hotKey?.keyDownHandler = { [weak self] in
+            self?.incrementCounter()
+        }
     }
 
     @objc func incrementCounter() {
@@ -74,30 +85,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func showCustomIncrementWindow() {
-        // Check if the window is already open
         if window != nil {
+            window?.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
             return
         }
 
-        let customWindow = NSWindow(contentRect: NSMakeRect(0, 0, 200, 100),
-                                    styleMask: [.titled, .closable],
-                                    backing: .buffered, defer: false)
-        customWindow.center()
-        customWindow.title = "Custom Increment"
+        DispatchQueue.main.async {
+            NSApp.activate(ignoringOtherApps: true)
 
-        let textField = NSTextField(frame: NSMakeRect(20, 50, 160, 24))
-        textField.placeholderString = "Enter a number"
-        textField.alignment = .center
-        customWindow.contentView?.addSubview(textField)
+            let customWindow = NSWindow(contentRect: NSMakeRect(0, 0, 200, 100),
+                                        styleMask: [.titled, .closable],
+                                        backing: .buffered, defer: false)
+            customWindow.center()
+            customWindow.title = "Custom Increment"
 
-        let addButton = NSButton(frame: NSMakeRect(60, 10, 80, 32))
-        addButton.title = "Add"
-        addButton.action = #selector(addCustomIncrement)
-        addButton.target = self
-        customWindow.contentView?.addSubview(addButton)
+            // Make sure the window floats above others
+            customWindow.level = .floating
+            customWindow.collectionBehavior = [.moveToActiveSpace, .transient]
 
-        self.window = customWindow
-        customWindow.makeKeyAndOrderFront(nil)
+            let textField = NSTextField(frame: NSMakeRect(20, 50, 160, 24))
+            textField.placeholderString = "Enter a number"
+            textField.alignment = .center
+            customWindow.contentView?.addSubview(textField)
+
+            let addButton = NSButton(frame: NSMakeRect(60, 10, 80, 32))
+            addButton.title = "Add"
+            addButton.action = #selector(self.addCustomIncrement)
+            addButton.target = self
+            customWindow.contentView?.addSubview(addButton)
+
+            customWindow.defaultButtonCell = addButton.cell as? NSButtonCell
+
+            self.window = customWindow
+
+            // Focus and bring to front
+            customWindow.makeKeyAndOrderFront(nil)
+            customWindow.makeMain() // This helps if there's no main window
+        }
     }
 
     @objc func addCustomIncrement() {

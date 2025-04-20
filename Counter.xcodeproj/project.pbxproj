@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EF5302A2DB4F3B2005C7F87 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 4EF530292DB4F3B2005C7F87 /* HotKey */; };
 		E1936FDF2B075CF80077AD45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1936FDE2B075CF80077AD45 /* AppDelegate.swift */; };
 		E1936FE12B075CF80077AD45 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1936FE02B075CF80077AD45 /* ViewController.swift */; };
 		E1936FE32B075CFA0077AD45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1936FE22B075CFA0077AD45 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EF5302A2DB4F3B2005C7F87 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +107,9 @@
 				Base,
 			);
 			mainGroup = E1936FD22B075CF80077AD45;
+			packageReferences = (
+				4EF530282DB4F3B2005C7F87 /* XCRemoteSwiftPackageReference "HotKey" */,
+			);
 			productRefGroup = E1936FDC2B075CF80077AD45 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -203,7 +208,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -257,6 +262,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -285,7 +291,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = nickthedev.Counter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -315,7 +321,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = nickthedev.Counter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -345,6 +351,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4EF530282DB4F3B2005C7F87 /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4EF530292DB4F3B2005C7F87 /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4EF530282DB4F3B2005C7F87 /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E1936FD32B075CF80077AD45 /* Project object */;
 }
